@@ -21,7 +21,7 @@
         android:orientation="horizontal">
         <EditText
             android:paddingLeft="10dp"
-            android:layout_margin="10dp"
+            android:layout_margin="13dp"
             android:background="#FFF"
             android:id="@+id/editText"
             android:layout_width="0dp"
