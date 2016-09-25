@@ -9,6 +9,9 @@ import android.widget.ListView;
 
 import com.apologize.chatroom.AdapterPage.MSGListViewAdapter;
 import com.apologize.chatroom.MSG.Message;
+import com.apologize.chatroom.voicefunction.VoiveUtils;
+import com.iflytek.cloud.SpeechConstant;
+import com.iflytek.cloud.SpeechUtility;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +24,7 @@ public class MainActivity extends Activity {
     private ListView listView;
     private EditText editText;
     private Button sendButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +39,9 @@ public class MainActivity extends Activity {
         dataList.add(new Message(Message.MSG_LEFT,"hahah",null));
         listView.setAdapter(adapter);
 
+        // 将“12345678”替换成您申请的 APPID，申请地址：http://www.xfyun.cn
+        // 请勿在“=”与 appid 之间添加任务空字符或者转义符
+        SpeechUtility.createUtility(this, SpeechConstant.APPID + "=57e67abd");
 
     }
 
@@ -48,13 +55,18 @@ public class MainActivity extends Activity {
     }
 
     public void click(View v){
-        String text = editText.getText().toString();
-        if (text!=null&&!text.equals("")){
-
-            dataList.add(new Message(Message.MSG_RIGHT,text,null));
-            adapter.notifyDataSetChanged();  //更新
-            listView.setSelection(listView.getBottom());
-            editText.setText("");
-        }
+//        String text = editText.getText().toString();
+//        if (text!=null&&!text.equals("")){
+//
+//            dataList.add(new Message(Message.MSG_RIGHT,text,null));
+//            adapter.notifyDataSetChanged();  //更新
+//            listView.setSelection(listView.getBottom());
+//            editText.setText("");
+//        }
+        VoiveUtils.getInstance().startVoice(this);
     }
+
+
+
+
 }
