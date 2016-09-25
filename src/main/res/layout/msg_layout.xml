@@ -18,7 +18,7 @@
             android:id="@+id/left_textView"
             android:layout_margin="@dimen/text_margin"
             android:layout_width="wrap_content"
-            android:layout_height="45dp"
+            android:layout_height="wrap_content"
             android:paddingLeft="23dp"
             android:text=""/>
     </LinearLayout>
@@ -32,12 +32,12 @@
         android:weightSum="1"
         android:orientation="horizontal">
         <TextView
+            android:paddingLeft="10dp"
             android:gravity="center_vertical"
             android:background="@drawable/message_right"
             android:id="@+id/right_textView"
             android:layout_margin="@dimen/text_margin"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_weight="0.10" />
+            android:layout_height="wrap_content" />
     </LinearLayout>
 </LinearLayout>

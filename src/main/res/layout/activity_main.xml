@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:divider="#000">
+        android:divider="#000"
+        android:transcriptMode="alwaysScroll">
     </ListView>
 
     <LinearLayout
@@ -35,6 +36,16 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="发送"
+            android:onClick="click"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/voiceButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="语音"
             android:onClick="click"/>
     </LinearLayout>
 

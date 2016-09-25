@@ -1,17 +1,16 @@
 package com.apologize.chatroom.AdapterPage;
 
 
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.apologize.chatroom.MSG.Message;
 import com.apologize.chatroom.R;
+import com.apologize.chatroom.voicefunction.VoiveUtils;
 
 import java.util.List;
 
@@ -19,7 +18,7 @@ import java.util.List;
  * Created by apologize on 2016/9/24.
  */
 
-public class MSGListViewAdapter extends BaseAdapter{
+public class MSGListViewAdapter extends BaseAdapter implements View.OnLongClickListener{
     private int layoutID;
     private List<Message> dataList;
     private Context context;
@@ -72,34 +71,36 @@ public class MSGListViewAdapter extends BaseAdapter{
             viewHolder.right_layout.setVisibility(View.GONE);
             viewHolder.left_layout.setVisibility(View.VISIBLE);
             viewHolder.left_textView.setText(msg.getContent());
+
+            //长按事件
+            viewHolder.left_textView.setOnLongClickListener(this);
         }
         else if(msg.getDir()==Message.MSG_RIGHT){
             viewHolder.left_layout.setVisibility(View.GONE);
             viewHolder.right_layout.setVisibility(View.VISIBLE);
             viewHolder.right_textView.setText(msg.getContent());
             //事件监听
-            //点击事件的监听
-            viewHolder.right_textView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v){
-                    Toast.makeText(context,viewHolder.right_textView.getText(),Toast.LENGTH_LONG).show();
-                }
-            });
 
             //长按事件
-            viewHolder.right_textView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    //长按复制
-                    ClipboardManager manager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-                    manager.setText(viewHolder.right_textView.getText());
-                    Toast.makeText(context,"已复制",Toast.LENGTH_LONG).show();
-                    //TODO 粘贴
-                    return true;
-                }
-            });
+            viewHolder.right_textView.setOnLongClickListener(this);
         }
         return convertView;
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+        TextView textView = (TextView) v;
+        VoiveUtils.getInstance().makeVoice(context,textView.getText().toString());
+        return true;
+    }
+
+    /**
+     * 提供一个添加的接口
+     * @param msg
+     */
+    public void addDataList(Message msg){
+        dataList.add(msg);
+        this.notifyDataSetChanged();  //更新
     }
 
     /**

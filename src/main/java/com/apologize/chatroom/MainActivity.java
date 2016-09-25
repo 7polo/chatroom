@@ -32,7 +32,6 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         findView();
-
         dataList = new ArrayList<Message>();
         adapter = new MSGListViewAdapter(this,R.layout.msg_layout,dataList);
 
@@ -45,6 +44,7 @@ public class MainActivity extends Activity {
 
     }
 
+
     /**
      * 绑定控件
      */
@@ -55,15 +55,35 @@ public class MainActivity extends Activity {
     }
 
     public void click(View v){
-//        String text = editText.getText().toString();
-//        if (text!=null&&!text.equals("")){
-//
-//            dataList.add(new Message(Message.MSG_RIGHT,text,null));
-//            adapter.notifyDataSetChanged();  //更新
-//            listView.setSelection(listView.getBottom());
-//            editText.setText("");
-//        }
-        VoiveUtils.getInstance().startVoice(this);
+
+        int id = v.getId();
+        switch (id){
+            case R.id.voiceButton:{
+                voiceToString();
+                break;
+            }
+            case R.id.sendButton:{
+                sendButton();
+                break;
+            }
+        }
+    }
+
+    private void sendButton(){
+        String text = editText.getText().toString();
+        if (text != null && !text.equals("")) {
+
+
+            adapter.addDataList(new Message(Message.MSG_RIGHT, text, null));
+            listView.setSelection(listView.getBottom());
+            editText.setText("");
+            VoiveUtils.getInstance().textUnderstand(this,text,adapter);
+        }
+    }
+
+    private void voiceToString(){
+        //将识别内容放置输入框
+        VoiveUtils.getInstance().startVoice(this,editText);
     }
 
 
