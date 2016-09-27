@@ -9,6 +9,7 @@ import android.widget.ListView;
 
 import com.apologize.chatroom.AdapterPage.MSGListViewAdapter;
 import com.apologize.chatroom.MSG.Message;
+import com.apologize.chatroom.savedMessageUtil.MeesageHelper;
 import com.apologize.chatroom.voicefunction.VoiveUtils;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechUtility;
@@ -24,7 +25,7 @@ public class MainActivity extends Activity {
     private ListView listView;
     private EditText editText;
     private Button sendButton;
-
+    private int messageCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +36,6 @@ public class MainActivity extends Activity {
         dataList = new ArrayList<Message>();
         adapter = new MSGListViewAdapter(this,R.layout.msg_layout,dataList);
 
-        dataList.add(new Message(Message.MSG_LEFT,"hahah",null));
         listView.setAdapter(adapter);
 
         // 将“12345678”替换成您申请的 APPID，申请地址：http://www.xfyun.cn
@@ -44,6 +44,22 @@ public class MainActivity extends Activity {
 
     }
 
+    @Override
+    protected void onResume() {
+        //恢复保存的信息
+        dataList.addAll(MeesageHelper.messageReader(this));
+        messageCount = dataList.size();
+        adapter.notifyDataSetChanged();
+
+        super.onResume();
+    }
+
+    @Override
+    protected void onStop() {
+        if (messageCount < dataList.size())
+           MeesageHelper.messageWriter(this,dataList);
+        super.onStop();
+    }
 
     /**
      * 绑定控件
